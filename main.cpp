@@ -135,21 +135,33 @@ bool dfs(int r, int c,
         return false;
     }
 
-    if (r == exit_r && c == exit_c) {
-        return true;
+    if (visited[r][c]) {
+        return false;
     }
 
-    for (int d = 0; d < 4; d++) {
-        int nr = r + dr[d];
-        int nc = c + dc[d];
+        visited[r][c] = true;
 
-        if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
+        if (r == exit_r && c == exit_c) {
             return true;
         }
-    }
 
-    return false;
-}
+        for (int d = 0; d < 4; d++) {
+            int nr = r + dr[d];
+            int nc = c + dc[d];
+
+            if (nr >= 0 && nr < N &&
+                nc >= 0 && nc < M &&
+                maze[nr][nc] == 0 &&
+                !visited[nr][nc]) {
+
+                if (dfs(nr, nc, maze, visited, parent_r, parent_c, exit_r, exit_c)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 
 // ----------------------------------------------------------
